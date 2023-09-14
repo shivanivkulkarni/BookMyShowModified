@@ -4,9 +4,11 @@ import json
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from sellerApp.models import *
+from BookMyShow.permissionDecorator import *
 
 @login_required
 @csrf_exempt
+@user_type_required('seller')
 def addTheater(request):
     try:
         data = json.loads(request.body)

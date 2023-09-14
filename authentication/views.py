@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import authenticate, login as auth_login,logout
 import json
 from django.http import JsonResponse
 from authentication.models import *
 from authentication.userBackend import *
 from sellerApp.models import *
 from adminApp.models import *
+from django.contrib.auth.decorators import login_required, permission_required
 
 @csrf_exempt
 def addSeller(request):
@@ -83,3 +84,10 @@ def adminLogin(request):
 
     except Exception as e:
         return JsonResponse({"msg":str(e)})
+
+
+@csrf_exempt
+@login_required
+def logoutUser(request):
+    logout(request)
+    return JsonResponse({"msg":"Logout Successful"})
